@@ -27,6 +27,8 @@ export type EventHandlerParams<T> = {
 
 export interface IEventHandler<T> {
     new (params: EventHandlerParams<T>): any;
+    moveStart: (e?: any) => void;
+    moveEnd: (e?: any) => void;
     updateView(e: ViewUpdateEvent): void;   
     destroy(): void;
 }

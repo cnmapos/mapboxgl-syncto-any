@@ -1,8 +1,9 @@
-import { Cartographic, Ellipsoid, UrlTemplateImageryProvider, Viewer, WebMapTileServiceImageryProvider, WebMercatorTilingScheme } from "cesium";
-import { Math as CMath } from "cesium";
+const { Cartographic, Ellipsoid, Ion, UrlTemplateImageryProvider, Viewer, WebMercatorTilingScheme, Math: CMath } = Cesium;
 
-export function anyMapSetup(params: { container: HTMLElement }): Promise<Viewer> {
-    const viewer = new Viewer(params.container, { 
+export async function anyMapSetup(params: { container: HTMLElement }): Promise<Viewer> {
+    Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3MmM2NzE1MS1hZmY4LTRjZjAtYjU0OS01ZmYxNTUyN2RmZTkiLCJpZCI6MTAyMDM4LCJpYXQiOjE2NTg0MjAyMDh9._4bKrmIJqaK2-Q4gwnR7FE7Ldgl920_n5BHZvTu4MPE';
+
+    const viewer = new Viewer(params.container, {
         baseLayerPicker: false,
         sceneModePicker: false,
         animation: false,
@@ -14,20 +15,21 @@ export function anyMapSetup(params: { container: HTMLElement }): Promise<Viewer>
         infoBox: false,
         scene3DOnly: true,
     });
-    // viewer._cesiumWidget._creditContainer.style.display = "none";// 隐藏版权
+
+    viewer._cesiumWidget._creditContainer.style.display = "none";// 隐藏版权
     const key = '39673271636382067f0b0937ab9a9677';
     viewer.imageryLayers.addImageryProvider(
         new UrlTemplateImageryProvider({  
             url: `https://t{s}.tianditu.gov.cn/DataServer?T=img_w&x={x}&y={y}&l={z}&tk=${key}`,
             subdomains: ['0', '1', '2', '3', '4', '5', '6', '7'],  
             tilingScheme: new WebMercatorTilingScheme(),
-            maximumLevel: 18,    
+            maximumLevel: 20,    
         })
     );
     viewer.imageryLayers.get(0).show = true;
     initCameraView(viewer);
 
-    return Promise.resolve(viewer);
+    return viewer;
 }
 
 function initCameraView(viewer: Viewer) {

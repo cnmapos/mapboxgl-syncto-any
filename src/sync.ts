@@ -1,7 +1,11 @@
 import { AnyContext, AnyMap, EventFrom, IEventHandler, TriggerEvent, ViewUpdateEvent } from "./types";
 import { Map } from "mapbox-gl";
 
-export function mapSync(mapboxContext: AnyContext<Map>, anyContext: AnyContext<AnyMap>, options: { initFrom: EventFrom; }) {
+export function mapSync(
+    mapboxContext: AnyContext<Map>, 
+    anyContext: AnyContext<AnyMap>, 
+    options: { initFrom: EventFrom; mapboxAllowPitch?: boolean; anyAllowPitch?: boolean }
+) {
     const syncContext = {
         eventFrom: options.initFrom || EventFrom.Mapbox,
     }
@@ -36,6 +40,12 @@ export function mapSync(mapboxContext: AnyContext<Map>, anyContext: AnyContext<A
         getFrom: getFrom,
         onUpdateView: onUpdateView
     });
+
+    if (syncContext.eventFrom === EventFrom.Mapbox) { 
+        mpboxEventHandler.moveEnd();
+    } else {
+        anyEventHandler.moveEnd();
+    }
 
     return {
         destroy: () => {

@@ -15,15 +15,16 @@ export class MapboxEventHander<T extends Map> implements IEventHandler<T> {
         this.viewer = params.map;
         this.onTrigger = params.onTrigger;
         this.getFrom = params.getFrom;
-        this.viewer.on('mousedown', (this.mouseDown = this.mouseDown.bind(this)));
-        this.viewer.on('move', (this.mouseMove = this.mouseMove.bind(this)));
+        this.onUpdateView = params.onUpdateView;
+        this.viewer.on('mousedown', (this.moveStart = this.moveStart.bind(this)));
+        this.viewer.on('move', (this.moveEnd = this.moveEnd.bind(this)));
     }
 
-    mouseDown(e: MapMouseEvent) {
+    moveStart(e: MapMouseEvent) {
         this.onTrigger({...e, eventFrom: EventFrom.Mapbox });
     }
 
-    mouseMove(e: MapMouseEvent) {
+    moveEnd() {
         if (this.getFrom() !== EventFrom.Mapbox) {
             return
         }
@@ -64,7 +65,7 @@ export class MapboxEventHander<T extends Map> implements IEventHandler<T> {
     }
 
     destroy() {
-        this.viewer.off('mousedown', this.mouseDown);
-        this.viewer.off('move', this.mouseMove);
+        this.viewer.off('mousedown', this.moveStart);
+        this.viewer.off('move', this.moveEnd);
     }
 }
