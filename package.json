@@ -1,6 +1,6 @@
 {
   "name": "mapboxgl-syncto-any",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "mapboxgl view synchronizer with other map views.",
   "main": "./dist/index.js",
   "module": "./dist/index.esm.js",
