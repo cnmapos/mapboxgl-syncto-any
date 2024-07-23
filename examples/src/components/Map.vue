@@ -11,18 +11,18 @@ onMounted(async () => {
     const mapboxMap = await mapboxSetup({ container: mboxMapEle.value });
     const anyMap = await anyMapSetup({ container: anyMapEle.value });
 
-    // const synchronizer = mapViewSync({ 
-    //     map: mapboxMap,
-    //     Handler: MapboxEventHander,
-    //  }, {
-    //     map: anyMap,
-    //     Handler: CesiumEventHandler
-    //   }, {
-    //     initFrom: 'mapbox',
-    //     direction: SyncDirection.MapToAny
-    //   })
+    const synchronizer = mapViewSync({ 
+        map: mapboxMap,
+        Handler: MapboxEventHander,
+     }, {
+        map: anyMap,
+        Handler: CesiumEventHandler
+      }, {
+        initFrom: 'mapbox',
+        direction: SyncDirection.MapToAny
+      })
     
-    const synchronizer = mapboxViewSyncWithCesium(mapboxMap, anyMap, { initFrom: 'mapbox', direction: 0 })
+    // const synchronizer = mapboxViewSyncWithCesium(mapboxMap, anyMap, { initFrom: 'mapbox', direction: 0 })
 })
 </script>
 
