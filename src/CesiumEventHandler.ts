@@ -1,4 +1,4 @@
-import { EventFrom, EventHandlerParams, IEventHandler, TriggerEvent, ViewUpdateEvent } from "./types";
+import { AnyMap, EventFrom, EventHandlerParams, IEventHandler, TriggerEvent, ViewUpdateEvent } from "./types";
 import _ from 'lodash';
 import { Cartesian2, ScreenSpaceEventHandler, ScreenSpaceEventType, Viewer, Math as CMath, Cartesian3, HeadingPitchRange, Matrix4, CameraEventType, defined } from 'cesium';
 
@@ -17,7 +17,7 @@ function getCenter(viewer: any): [number,number] {
     return coor;
 }
 
-export class CesiumEventHandler implements IEventHandler<Viewer> {
+export class CesiumEventHandler<T extends AnyMap> implements IEventHandler {
     private viewer: Viewer;
     private onTrigger: (e: TriggerEvent) => void;
     private onUpdateView: (e: ViewUpdateEvent) => void;
@@ -58,12 +58,12 @@ export class CesiumEventHandler implements IEventHandler<Viewer> {
     destroy(): void {
     }
 
-    private moveStart(e: any) {
+    moveStart(e: any) {
         this.onTrigger({ eventFrom: EventFrom.Other });
 		this.viewer.camera.lookAtTransform(Matrix4.IDENTITY);
     }
 
-    private moveEnd(e: any) {
+    moveEnd(e: any) {
         if (this.getFrom() !== EventFrom.Other) {
             return;
         }

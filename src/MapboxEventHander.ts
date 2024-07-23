@@ -4,7 +4,7 @@ import _ from 'lodash';
 import { getElevationByZoom, getZoomByElevation } from "./utils";
 
 
-export class MapboxEventHander<T extends Map> implements IEventHandler<T> {
+export class MapboxEventHander<T extends Map> implements IEventHandler {
     private viewer: Map;
     private onTrigger: (e: TriggerEvent) => void;
     private onUpdateView: (e: ViewUpdateEvent) => void;

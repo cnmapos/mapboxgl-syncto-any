@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { mapboxSetup } from '../business/mapbox';
 import { anyMapSetup } from '../business/cesium';
-import { mapSync, MapboxEventHander, CesiumEventHandler } from '../../../src';
+import { mapViewSync, mapboxViewSyncWithCesium, MapboxEventHander, CesiumEventHandler, SyncDirection } from '../../../src';
 import { onMounted, ref } from 'vue';
 
 const mboxMapEle = ref<HTMLDivElement>();
@@ -11,15 +11,18 @@ onMounted(async () => {
     const mapboxMap = await mapboxSetup({ container: mboxMapEle.value });
     const anyMap = await anyMapSetup({ container: anyMapEle.value });
 
-    const synchronizer = mapSync({ 
-        map: mapboxMap,
-        Handler: MapboxEventHander,
-     }, {
-        map: anyMap,
-        Handler: CesiumEventHandler
-      }, {
-        initFrom: 'mapbox'
-      })
+    // const synchronizer = mapViewSync({ 
+    //     map: mapboxMap,
+    //     Handler: MapboxEventHander,
+    //  }, {
+    //     map: anyMap,
+    //     Handler: CesiumEventHandler
+    //   }, {
+    //     initFrom: 'mapbox',
+    //     direction: SyncDirection.MapToAny
+    //   })
+    
+    const synchronizer = mapboxViewSyncWithCesium(mapboxMap, anyMap, { initFrom: 'mapbox', direction: 0 })
 })
 </script>
 

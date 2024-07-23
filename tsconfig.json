@@ -11,6 +11,7 @@
                 "dom.iterable", 
             ], 
             "allowJs": true,  /* 允许编译 js 文件 */ 
+            "allowSyntheticDefaultImports": true,
             "removeComments": true, /* 输出不包含注释 */ 
             /* 严格类型检查选项 */ 
             "strict": true, /* 启用所有严格类型检查选项 */ 

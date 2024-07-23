@@ -3,4 +3,4 @@ export * from './types';
 export { MapboxEventHander } from './MapboxEventHander';
 export { CesiumEventHandler } from './CesiumEventHandler'
 
-export { mapSync } from './sync';
+export { mapViewSync, mapboxViewSyncWithCesium } from './sync';
