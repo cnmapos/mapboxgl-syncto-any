@@ -1,41 +1,44 @@
 # mapboxgl-syncto-any
 
-mapboxgl-syncto-any是一款开源的地图视图同步工具，基于mapbox-gl，提供和其他任意地图视图同步，支持zoom、center、pitch、bearing等视图参数，默认提供mapbox-gl和cesium的全视角同步。
+mapboxgl-syncto-any is an open-source map view synchronization tool based on Mapbox GL JS. It provides synchronization capabilities with any other map views, supporting view parameters such as zoom, center, pitch, and bearing. By default, it offers full-view synchronization between Mapbox GL JS and CesiumJS.
 
 ## DOCUMENTTATION
 ### mapViewSync(mapboxContext, anyContext, options)
-- mapboxContext: { map, Handler }, map为mapbox-gl地图实体，Handler为实现IEventHandler和EventHandlerConstructor的类型
-- anyContext: { map, Handler }, map地图实体，Handler为实现IEventHandler和EventHandlerConstructor的类型
+- mapboxContext: { map, Handler }, map represents the mapbox-gl map instance, and Handler is the type that implements both IEventHandler and EventHandlerConstructor interfaces.
+- anyContext: { map, Handler } map represents the other map instance
 - options: 
-    - initFrom: 初始化同步源 `0为mapbox地图，1为其他地图`
-    - direction: 视图同步方向 `0为双向同步，1为mapbox->other，2为other->mapbox`
-    - mapboxAllowPitch: mapbox支持俯仰角同步
-    - anyAllowPitch: 其他地图支持俯仰角同步
+    - initFrom: The initial source for synchronization, `0:mapbox，1: others`
+    - direction: The direction of view synchronization 
+        - 0 for bidirectional synchronization
+        - 1 for Mapbox -> other
+        - 2 for other -> Mapbox.
+    - mapboxAllowPitch: Indicates whether pitch synchronization is supported by the Mapbox map.
+    - anyAllowPitch: Indicates whether pitch synchronization is supported by the other map.
     
 ### mapboxViewSyncWithCesium(mpboxViewer, cesiumViewer, options)
-- mpboxViewer: mapbox-gl地图实例
-- cesiumViewer: Cesium.Viewer实例
-- options: 和mapViewSync方法一致
+- mpboxViewer: mapbox-gl instance
+- cesiumViewer: Cesium.Viewer instance
+- options: Be identical to options of the mapViewSync method
 
 ## Example
-示例代码在examples目录下，可执行命令运行示例:
+Example code can be found in the examples directory. To run the example, execute the following commands:
 ```
 cd examples
 npm install
 npm run dev
 ```
-### mapboxViewSyncWithCesium示例
+### mapboxViewSyncWithCesium demo
 ```
 const mapboxMap = await mapboxSetup({ container: mboxMapEle.value });
 const anyMap = await anyMapSetup({ container: anyMapEle.value });
 
 const synchronizer = mapboxViewSyncWithCesium(mapboxMap, anyMap, { initFrom: 'mapbox', direction: 0 })
 
-// synchronizer.setDirection(SyncDirection.Both) 设置同步方向，默认为双向同步。SyncDirection枚举包含:Both双向、MapToAnymapbox-gl同步至其他地图、AnyToMapbox其他地图同步至mapbox-gl
-
-/ synchronizer.destroy() 销毁同步器
+// synchronizer.setDirection(SyncDirection.Both); Change the synchronization direction dynamically. By default, it's bidirectional. Enum SyncDirection includes: Both, MapToAny, AnyToMapbox.
+  
+// synchronizer.destroy(); Destroy the synchronizer  
 ```
-### mapViewSync示例
+### mapViewSync demo
 ```
 const mapboxMap = await mapboxSetup({ container: mboxMapEle.value });
 const anyMap = await anyMapSetup({ container: anyMapEle.value });
@@ -68,7 +71,7 @@ export interface EventHandlerConstructor<T> {
     new (params: EventHandlerParams<T>): IEventHandler;
 };
 ```
-如果要实现其他地图与mapbox-gl的同步，只需要实现IEventHandler接口，例如cesium的同步Hander:
+To achieve synchronization between other maps and mapbox-gl, all you need to do is implement the IEventHandler interface, similar to creating a synchronization handler for Cesium. Here's a conceptual example of how you might approach this:
 ```
 export class CesiumEventHandler<T extends AnyMap> implements IEventHandler {
     private viewer: Viewer;
