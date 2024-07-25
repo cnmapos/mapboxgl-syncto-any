@@ -22,7 +22,11 @@ onMounted(async () => {
         direction: SyncDirection.MapToAny
       })
     
-    // const synchronizer = mapboxViewSyncWithCesium(mapboxMap, anyMap, { initFrom: 'mapbox', direction: 0 })
+    const synchronizer = mapboxViewSyncWithCesium(
+        mapboxMap, 
+        anyMap, 
+        { initFrom: 'mapbox', direction: 0, anyAllowPitch: false }
+    )
 })
 </script>
 

@@ -1,8 +1,13 @@
 # mapboxgl-syncto-any
 
-mapboxgl-syncto-any is an open-source map view synchronization tool based on Mapbox GL JS. It provides synchronization capabilities with any other map views, supporting view parameters such as zoom, center, pitch, and bearing. By default, it offers full-view synchronization between Mapbox GL JS and CesiumJS.
+mapboxgl-syncto-any is an open-source map view synchronization tool based on Mapbox GL JS. It provides synchronization capabilities with any other map views. By default, it offers full-view synchronization between Mapbox GL JS and CesiumJS.
 
 ## DOCUMENTTATION
+### mapboxViewSyncWithCesium(mpboxViewer, cesiumViewer, options)
+- mpboxViewer: mapbox-gl instance
+- cesiumViewer: Cesium.Viewer instance
+- options: Be identical to options of the mapViewSync method
+
 ### mapViewSync(mapboxContext, anyContext, options)
 - mapboxContext: { map, Handler }, map represents the mapbox-gl map instance, and Handler is the type that implements both IEventHandler and EventHandlerConstructor interfaces.
 - anyContext: { map, Handler } map represents the other map instance
@@ -12,14 +17,9 @@ mapboxgl-syncto-any is an open-source map view synchronization tool based on Map
         - 0 for bidirectional synchronization
         - 1 for Mapbox -> other
         - 2 for other -> Mapbox.
-    - mapboxAllowPitch: Indicates whether pitch synchronization is supported by the Mapbox map.
-    - anyAllowPitch: Indicates whether pitch synchronization is supported by the other map.
+    - mapboxAllowPitch: true|false, Indicates whether pitch updating is supported by the Mapbox map.
+    - anyAllowPitch: true|false, Indicates whether pitch updating is supported by the other map.
     
-### mapboxViewSyncWithCesium(mpboxViewer, cesiumViewer, options)
-- mpboxViewer: mapbox-gl instance
-- cesiumViewer: Cesium.Viewer instance
-- options: Be identical to options of the mapViewSync method
-
 ## Example
 Example code can be found in the examples directory. To run the example, execute the following commands:
 ```
